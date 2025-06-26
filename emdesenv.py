@@ -4,14 +4,11 @@ terreno = [[0,1,2,3,4,5]]
 pontos = {'armador' : 0, 'andarilho' : 0}
 
 
-
-
 def andar_andarilho():
     passo = ' '
     for i in range(100):
         print(passo)
         passo += '='
-
     
     move = 0
     for i in range(len(terreno)-1):
@@ -21,11 +18,11 @@ def andar_andarilho():
         escolhe = int(input('Escolha sabiamente um dos espaços válidos: '))
         if escolhe in validos:
             move = escolhe
-        if terreno[i+1][move] == 'O':
+        if terreno[i+1][move] == 'O': #verifica se terreno[linha+1] na coluna [move] tem ovo podre
             print('Eca! Você pisou em um ovo podre e perdeu')
             pontos['armador'] += 1
             break
-        elif i == len(terreno)-2 and terreno[i+1][move] == 'A':
+        elif i == len(terreno)-2 and terreno[i+1][move] == 'A': #elif i == 4 e terreno[i-1][move] == 'A'
             print('Parabéns, você atravessou o terreno sem cair nas armadilhas!!')
             pontos['andarilho'] += 1
             break
@@ -114,7 +111,6 @@ opt = {1 : 'Definir Armador', 2 : 'Plantar Armadilhas', 3 : 'Iniciar com Andaril
 
 criar_terreno()
 
-
 while continua != 0:
     menu(opt)
     continua = int(valida(input(), ['1', '2', '3', '4', '5', '0']))
@@ -132,3 +128,6 @@ while continua != 0:
     elif continua == 3:
         if 'armador' in config.keys():
             andar_andarilho()
+    elif continua == 4:
+        print('Pontuação do jogador', config['armador'], ':',  pontos['armador'])
+        print('Pontuação do jogador', config['andarilho'], ':',  pontos['andarilho'])
