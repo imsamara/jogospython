@@ -4,33 +4,39 @@ terreno = [[0,1,2,3,4,5]]
 pontos = {'armador' : 0, 'andarilho' : 0}
 
 
+
+
 def andar_andarilho():
     passo = ' '
     for i in range(100):
         print(passo)
         passo += '='
-    print('São válidos os espaços: [1, 2, 3, 4, 5] \nEscolha sabiamente um dos espaços válidos')
 
     move = 0
-    for i in range(len(terreno[1:])):
-        anda = valida(i, move)
+    for i in range(len(terreno)-1):
+        validos = ['1', '2', '3', '4', '5']
+       
         print('São válidos os espaços: ', anda)
         move = valida(anda,int(input('Escolha sabiamente um dos espaços válidos: ')), [])
         if terreno[i+1][move] == 'O':
             print('Eca! Você pisou em um ovo podre e perdeu')
             pontos[pontos['armador']] += 1
+        elif terreno[i+1][move] == 'A':
+            print('Parabéns, você atravessou o terreno sem cair nas armadilhas!!')
+            pontos[pontos['andarilho']] += 1
 
+ 
 
     
 
 def colocar_ovos():
    
-    for line in range(5):
+    for line in range(1, 6):
         ovos_na_linha = 0
         ovos_podres = ''
         ninho = ['1', '2', '3', '4', '5', 'n']
         while ovos_na_linha <3 and ovos_podres != 'n':
-            ovos_podres = input(f'Em qual coluna da linha {line+1} você quer esconder ovos podres? [1 a 5].\nSe não desejar colocar, digite "n": ')
+            ovos_podres = input(f'Em qual coluna da linha {line} você quer esconder ovos podres? [1 a 5].\nSe não desejar colocar, digite "n": ')
             ovos_podres = valida(ovos_podres, ninho)
             if ovos_podres == 'n':
                 print('Pulando para a próxima linha.')
@@ -46,9 +52,7 @@ def imprime_terreno():
     for i in range(6):
         for j in range(6):
             print(terreno[i][j],end=' ')
-        print('')
-       
-
+        print(' ')
 
 def criar_terreno():
     global terreno
@@ -107,6 +111,9 @@ while continua != 0:
             imprime_terreno()
             print("Jogador", config['armador'], "você pode esconder até 3 ovos podres por linha do terreno.")
             colocar_ovos()
-            print(terreno)
+            imprime_terreno()
         else:
             print('É necessário informar o armador primeiro.')
+    elif continua == 3:
+        if 'armador' in config.keys():
+            andar_andarilho()
