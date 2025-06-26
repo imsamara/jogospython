@@ -12,22 +12,37 @@ def andar_andarilho():
         print(passo)
         passo += '='
 
+    
     move = 0
     for i in range(len(terreno)-1):
-        validos = ['1', '2', '3', '4', '5']
-       
-        print('São válidos os espaços: ', anda)
-        move = valida(anda,int(input('Escolha sabiamente um dos espaços válidos: ')), [])
+        validos = valida_movi(i, move)
+        print('São válidos os espaços: ', validos)
+
+        escolhe = int(input('Escolha sabiamente um dos espaços válidos: '))
+        if escolhe in validos:
+            move = escolhe
         if terreno[i+1][move] == 'O':
             print('Eca! Você pisou em um ovo podre e perdeu')
-            pontos[pontos['armador']] += 1
-        elif terreno[i+1][move] == 'A':
+            pontos['armador'] += 1
+            break
+        elif i == len(terreno)-2 and terreno[i+1][move] == 'A':
             print('Parabéns, você atravessou o terreno sem cair nas armadilhas!!')
-            pontos[pontos['andarilho']] += 1
+            pontos['andarilho'] += 1
+            break
 
  
-
-    
+def valida_movi(selecao, anterior):
+    validos = []
+    if selecao == 0:
+        validos = [1, 2, 3, 4, 5]
+    else:
+        validos.append(anterior)
+        if anterior - 1 > 0:
+            validos.append(anterior-1)
+        if anterior + 1 < 6:
+            validos.append(anterior+1)
+        validos.sort()
+    return validos    
 
 def colocar_ovos():
    
